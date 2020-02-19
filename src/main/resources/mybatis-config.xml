@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="safeRowBoundsEnabled" value="true"/>
+        <setting name="cacheEnabled" value="false"/>
+        <setting name="useGeneratedKeys" value="true"/>
+    </settings>
+<!--    <typeAliases>
+    </typeAliases>-->
+<!-- 查询sql 时进行拦截 -->
+<!--    <plugins>
+        <plugin interceptor=""></plugin>
+    </plugins>-->
+    <!-- 本地对象与数据库对象不对应，例如枚举，可以用这个标签实现 -->
+    <typeHandlers>
+
+    </typeHandlers>
+</configuration>
