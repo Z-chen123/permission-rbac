@@ -1,0 +1,1 @@
+mybatis-generator 是一个代码生成器，根据表之间之间的映射
