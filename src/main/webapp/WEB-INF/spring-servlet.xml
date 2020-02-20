@@ -9,10 +9,16 @@
     <context:annotation-config/>
     <!-- 启动注解驱动 springmvc 例如：@controller,@service,@component 生效-->
     <mvc:annotation-driven/>
+    <mvc:interceptors>
+        <bean class="com.mmall.util.HttpIntercepter"/>
+    </mvc:interceptors>
 
     <!-- 以上启动的注解在包下生效（启动包扫描）这里一般写 controller, service包，而dao是通过mybatis 来配置的 -->
     <context:component-scan base-package="com.mmall.controller"/>
     <context:component-scan base-package="com.mmall.service"/>
+    <!-- 不让定义的上下文类懒加载 -->
+    <bean class="com.mmall.util.ApplicationContextHelper" lazy-init="false"/>
+
     <!-- 自定义异常处理 -->
     <bean class="com.mmall.common.SpringExceptionResolver"/>
     <!-- @RequestMapping注解用什么来解决 -->
