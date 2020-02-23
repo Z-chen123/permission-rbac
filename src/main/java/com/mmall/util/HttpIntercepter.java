@@ -1,5 +1,6 @@
 package com.mmall.util;
 
+import com.mmall.common.RequestHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -31,6 +32,7 @@ public class HttpIntercepter extends HandlerInterceptorAdapter {
         long start = (Long) request.getAttribute(START_TIME);
         long end = System.currentTimeMillis();
         log.info("request finished. url:{},params:{},cost:{}",url,JsonMapper.obj2String(map),end-start);
+        removeThreadLocalInfo();
     }
 
     @Override
@@ -40,5 +42,10 @@ public class HttpIntercepter extends HandlerInterceptorAdapter {
         long start =(Long)request.getAttribute(START_TIME);
         long end = System.currentTimeMillis();
         log.info("request completed. url:{},params:{},cost:{}",url,JsonMapper.obj2String(map),end-start);
+        removeThreadLocalInfo();
+    }
+
+    public void removeThreadLocalInfo(){
+        RequestHolder.remove();
     }
 }

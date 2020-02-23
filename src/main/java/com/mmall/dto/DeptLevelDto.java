@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 public class DeptLevelDto extends SysDept {
 
-    private List<DeptLevelDto> dtoList = Lists.newArrayList();
+    private List<DeptLevelDto> deptList = Lists.newArrayList();
 
     public static DeptLevelDto adapt(SysDept dept){
         DeptLevelDto dto = new DeptLevelDto();

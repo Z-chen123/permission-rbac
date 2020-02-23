@@ -1,12 +1,14 @@
 package com.mmall.service.impl;
 
 import com.google.common.base.Preconditions;
+import com.mmall.common.RequestHolder;
 import com.mmall.dao.SysDeptMapper;
 import com.mmall.exception.ParamException;
 import com.mmall.model.SysDept;
 import com.mmall.param.DeptParam;
 import com.mmall.service.SysDeptService;
 import com.mmall.util.BeanValidator;
+import com.mmall.util.IpUtil;
 import com.mmall.util.LevelUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
@@ -31,8 +33,8 @@ public class SysDeptServiceImpl implements SysDeptService {
                 .name(param.getName()).parentId(param.getParentId())
                 .remark(param.getRemark()).seq(param.getSeq()).build();
         sysDept.setLevel(LevelUtil.calculateLevel(getLevel(sysDept.getParentId()),sysDept.getParentId()));
-        sysDept.setOperator("System"); //TODO
-        sysDept.setOperateIp("127.0.0.1"); //TODO
+        sysDept.setOperator(RequestHolder.getCurrentUser().getUsername());
+        sysDept.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysDept.setOperateTime(new Date());
         this.sysDeptMapper.insertSelective(sysDept);
     }
@@ -51,8 +53,8 @@ public class SysDeptServiceImpl implements SysDeptService {
                 .name(param.getName()).parentId(param.getParentId())
                 .remark(param.getRemark()).seq(param.getSeq()).build();
         after.setLevel(LevelUtil.calculateLevel(getLevel(param.getParentId()),param.getParentId()));
-        after.setOperator("System-update"); //TODO
-        after.setOperateIp("127.0.0.1"); //TODO
+        after.setOperator(RequestHolder.getCurrentUser().getUsername());
+        after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest())); //TODO
         after.setOperateTime(new Date());
 
         //更新当前部门及子部门
