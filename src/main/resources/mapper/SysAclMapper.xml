@@ -174,4 +174,52 @@
       operate_ip = #{operateIp,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="countByAclModuleId" parameterType="int" resultType="int">
+    select count(1)
+    from sys_acl
+    where acl_module_id =#{aclModuleId}
+  </select>
+
+  <select id="getPageByAclModuleId" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_acl
+    where acl_module_id =#{aclModuleId}
+    order by seq asc,name asc
+    limit #{page.offset},#{page.pageSize}
+  </select>
+
+  <select id="countByNameAndAclModuleId" parameterType="map" resultType="int">
+    select count(1)
+    from sys_acl
+    where acl_module_id =#{aclModuleId}
+    and name = #{name}
+    <if test="id!=null and id!=''">
+      and id != #{id}
+    </if>
+  </select>
+  <select id="getRoleIdListByUserId" parameterType="map" resultType="int">
+    select role_id from
+    sys_role_user
+    where user_id = #{userId}
+  </select>
+
+  <select id="getAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    sys_acl
+  </select>
+  <select id="getAclByIdList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    sys_acl
+    where
+    id in
+    <foreach collection="userAclIdList" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </select>
 </mapper>

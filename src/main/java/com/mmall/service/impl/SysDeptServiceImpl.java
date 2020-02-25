@@ -3,8 +3,10 @@ package com.mmall.service.impl;
 import com.google.common.base.Preconditions;
 import com.mmall.common.RequestHolder;
 import com.mmall.dao.SysDeptMapper;
+import com.mmall.dao.SysUserMapper;
 import com.mmall.exception.ParamException;
 import com.mmall.model.SysDept;
+import com.mmall.model.SysUser;
 import com.mmall.param.DeptParam;
 import com.mmall.service.SysDeptService;
 import com.mmall.util.BeanValidator;
@@ -22,6 +24,9 @@ import java.util.List;
 public class SysDeptServiceImpl implements SysDeptService {
     @Resource
     private SysDeptMapper sysDeptMapper;
+
+    @Resource
+    private SysUserMapper sysUserMapper;
 
     @Override
     public void saveDept(DeptParam param) {
@@ -59,6 +64,19 @@ public class SysDeptServiceImpl implements SysDeptService {
 
         //更新当前部门及子部门
         updateChildDept(before,after);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        SysDept sysDept = this.sysDeptMapper.selectByPrimaryKey(id);
+        Preconditions.checkNotNull(sysDept,"待删除的部门不存在");
+        if(sysDeptMapper.countByParentId(id)>0){
+            throw new ParamException("待删除的部门存在子部门，无法删除");
+        }
+        if(sysUserMapper.countByDeptId(id)>0){
+            throw new ParamException("待删除的部门存在用户，无法删除");
+        }
+        this.sysDeptMapper.deleteByPrimaryKey(id);
     }
 
     /**

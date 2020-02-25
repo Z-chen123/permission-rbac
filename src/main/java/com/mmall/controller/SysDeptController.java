@@ -7,6 +7,7 @@ import com.mmall.service.SysDeptService;
 import com.mmall.service.impl.SysDeptTreeServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -64,5 +65,15 @@ public class SysDeptController {
     public JsonData tree(){
         List<DeptLevelDto> dtoList = sysDeptTreeService.deptTree();
         return JsonData.success(dtoList);
+    }
+
+    /**
+     * 删除部门
+     */
+    @RequestMapping("/delete.json")
+    @ResponseBody
+    public JsonData delete(@RequestParam("id")Integer id){
+        this.sysDeptServiceImpl.delete(id);
+        return JsonData.success();
     }
 }
