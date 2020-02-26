@@ -9,6 +9,7 @@ import com.mmall.model.SysDept;
 import com.mmall.model.SysUser;
 import com.mmall.param.DeptParam;
 import com.mmall.service.SysDeptService;
+import com.mmall.service.SysLogService;
 import com.mmall.util.BeanValidator;
 import com.mmall.util.IpUtil;
 import com.mmall.util.LevelUtil;
@@ -28,6 +29,9 @@ public class SysDeptServiceImpl implements SysDeptService {
     @Resource
     private SysUserMapper sysUserMapper;
 
+    @Resource
+    private SysLogService sysLogServiceImpl;
+
     @Override
     public void saveDept(DeptParam param) {
         BeanValidator.check(param);
@@ -42,6 +46,7 @@ public class SysDeptServiceImpl implements SysDeptService {
         sysDept.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysDept.setOperateTime(new Date());
         this.sysDeptMapper.insertSelective(sysDept);
+        sysLogServiceImpl.saveDeptLog(null,sysDept);
     }
 
     @Override
@@ -64,6 +69,7 @@ public class SysDeptServiceImpl implements SysDeptService {
 
         //更新当前部门及子部门
         updateChildDept(before,after);
+        this.sysLogServiceImpl.saveDeptLog(before,after);
     }
 
     @Override

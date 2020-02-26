@@ -8,6 +8,7 @@ import com.mmall.exception.ParamException;
 import com.mmall.model.SysAclModule;
 import com.mmall.param.AclModuleParam;
 import com.mmall.service.SysAclModuleService;
+import com.mmall.service.SysLogService;
 import com.mmall.util.BeanValidator;
 import com.mmall.util.IpUtil;
 import com.mmall.util.LevelUtil;
@@ -28,6 +29,9 @@ public class SysAclModuleServiceImpl implements SysAclModuleService {
     @Resource
     private SysAclMapper sysAclMapper;
 
+    @Resource
+    private SysLogService sysLogServiceImpl;
+
     @Override
     public void saveAclModule(AclModuleParam param) {
         BeanValidator.check(param);
@@ -42,6 +46,7 @@ public class SysAclModuleServiceImpl implements SysAclModuleService {
         aclModule.setOperateTime(new Date());
 
         this.sysAclModuleMapper.insertSelective(aclModule);
+        this.sysLogServiceImpl.saveAclModuleLog(null,aclModule);
 
     }
 
@@ -68,6 +73,7 @@ public class SysAclModuleServiceImpl implements SysAclModuleService {
             }
         }
         this.sysAclModuleMapper.updateByPrimaryKey(after);
+
     }
 
     @Override
@@ -89,6 +95,7 @@ public class SysAclModuleServiceImpl implements SysAclModuleService {
 
         //更新当前权限模块及子权限模块
         updateChildAclModule(before,after);
+        this.sysLogServiceImpl.saveAclModuleLog(before,after);
     }
 
     @Override

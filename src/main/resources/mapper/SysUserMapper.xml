@@ -111,7 +111,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mmall.model.SysUser" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.mmall.model.SysUser" keyProperty="id" useGeneratedKeys="true" >
     update sys_user
     <set >
       <if test="username != null" >

@@ -11,6 +11,7 @@ import com.mmall.exception.ParamException;
 import com.mmall.model.SysRole;
 import com.mmall.model.SysUser;
 import com.mmall.param.RoleParam;
+import com.mmall.service.SysLogService;
 import com.mmall.service.SysRoleService;
 import com.mmall.util.BeanValidator;
 import com.mmall.util.IpUtil;
@@ -37,6 +38,9 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Resource
     private SysUserMapper sysUserMapper;
 
+    @Resource
+    private SysLogService sysLogServiceImpl;
+
     @Override
     public void saveRole(RoleParam param) {
         BeanValidator.check(param);
@@ -49,6 +53,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         role.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         role.setOperateTime(new Date());
         this.sysRoleMapper.insertSelective(role);
+        this.sysLogServiceImpl.saveRoleLog(null,role);
     }
 
     @Override
@@ -66,6 +71,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         after.setOperateTime(new Date());
         this.sysRoleMapper.updateByPrimaryKeySelective(after);
+        this.sysLogServiceImpl.saveRoleLog(before,after);
 
     }
 

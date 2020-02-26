@@ -8,6 +8,7 @@ import com.mmall.dao.SysUserMapper;
 import com.mmall.exception.ParamException;
 import com.mmall.model.SysUser;
 import com.mmall.param.UserParam;
+import com.mmall.service.SysLogService;
 import com.mmall.service.SysUserService;
 import com.mmall.util.*;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Resource
     private SysUserMapper sysUserMapper;
+
+    @Resource
+    private SysLogService sysLogServiceImpl;
     @Override
     public void saveUser(UserParam param) {
         BeanValidator.check(param);
@@ -45,6 +49,7 @@ public class SysUserServiceImpl implements SysUserService {
         //TODO sendMail
         EmailUtil.sendEmial(param.getMail(),"登录权限密码:"+password+",不是请勿回复","权限系统");
         sysUserMapper.insertSelective(user);
+        sysLogServiceImpl.saveUserLog(null,user);
     }
     public void updateUser(UserParam param){
         BeanValidator.check(param);
@@ -65,6 +70,7 @@ public class SysUserServiceImpl implements SysUserService {
                 after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
                 after.setOperateTime(new Date());
                 this.sysUserMapper.updateByPrimaryKeySelective(after);
+                this.sysLogServiceImpl.saveUserLog(before,after);
     }
 
     @Override

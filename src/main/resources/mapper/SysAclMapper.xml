@@ -120,7 +120,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mmall.model.SysAcl" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.mmall.model.SysAcl" keyProperty="id" useGeneratedKeys="true" >
     update sys_acl
     <set >
       <if test="code != null" >

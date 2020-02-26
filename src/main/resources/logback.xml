@@ -22,7 +22,9 @@
         <appender-ref ref="permission"/>
     </logger>-->
 
-    <!-- 日志级别 TRACE < DEBUG < INFO < WARNING < ERROR -->
+    <logger name="mybatis.sql" level="DEBUG">
+
+    </logger>
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
