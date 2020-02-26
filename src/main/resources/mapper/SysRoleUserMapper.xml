@@ -121,4 +121,19 @@
       #{roleUser.operator}, #{roleUser.operateTime}, #{roleUser.operateIp})
     </foreach>
   </insert>
+  <select id="getRoleIdListByUserId" parameterType="int" resultType="int">
+     select role_id
+    from sys_role_user
+    where user_id = #{userId}
+  </select>
+
+  <select id="getUserIdListByRoleIdList" parameterType="map" resultType="int">
+    select user_id
+    from sys_role_user
+    where role_id in
+    <foreach collection="roleIdList" item="roleId" open="(" close=")" separator=",">
+      #{roleId}
+    </foreach>
+  </select>
+
 </mapper>

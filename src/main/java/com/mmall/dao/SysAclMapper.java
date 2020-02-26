@@ -30,4 +30,6 @@ public interface SysAclMapper {
     List<Integer> getRoleIdListByUserId(@Param("userId") int userId);
 
     List<SysAcl> getAclByIdList(@Param("userAclIdList") List<Integer> userAclIdList);
+
+    List<SysAcl> getUrl(@Param("url") String url);
 }

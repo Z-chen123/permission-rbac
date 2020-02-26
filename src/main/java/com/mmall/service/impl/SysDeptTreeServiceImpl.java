@@ -35,7 +35,17 @@ public class SysDeptTreeServiceImpl {
     @Resource
     private SysAclMapper sysAclMapper;
 
-
+    public List<AclModuleLevelDto> userAclTree(int userId){
+        List<SysAcl> sysAclList = this.sysCoreServiceImpl.getUserAclList(userId);
+        List<AclDto> aclDtoList = Lists.newArrayList();
+        for(SysAcl acl : sysAclList){
+            AclDto dto = AclDto.adpt(acl);
+            dto.setHasAcl(true);
+            dto.setChecked(true);
+            aclDtoList.add(dto);
+        }
+        return aclListToTree(aclDtoList);
+    }
     public List<AclModuleLevelDto> roleTree(int roleId){
         //1.当前用户已经分配的权限
         List<SysAcl> userAclList = this.sysCoreServiceImpl.getCurrentUserAclList();

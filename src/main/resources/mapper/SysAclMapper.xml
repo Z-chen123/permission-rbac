@@ -222,4 +222,11 @@
       #{id}
     </foreach>
   </select>
+  <select id="getUrl"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    sys_acl
+    where url = #{url}
+  </select>
 </mapper>

@@ -127,4 +127,9 @@
       )
     </foreach>
   </insert>
+  <select id="getRoleIdListByAclId" parameterType="int" resultType="int">
+    select role_id
+    from sys_role_acl
+    where acl_id = #{aclId}
+  </select>
 </mapper>
